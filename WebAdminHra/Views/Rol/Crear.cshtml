@@ -1,0 +1,35 @@
+﻿@model Dominio.Rol
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Gestion de Roles</h4>
+                <hr />
+                <form class="needs-validation" novalidate action="@Url.Action("Guardar","Rol")" method="post">
+                    <input type="hidden" asp-for="RolId" />
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label asp-for="Denominacion" class="form-label">Denominacion</label>
+                                <input type="text" class="form-control" asp-for="Denominacion"
+                                       placeholder="Denominacion" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" asp-for="Estado">
+                        <label class="form-check-label" asp-for="Estado">
+                            Activo
+                        </label>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary" type="submit">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

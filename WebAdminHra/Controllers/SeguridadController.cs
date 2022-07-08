@@ -50,8 +50,8 @@ namespace WebAdminHra.Controllers
             return RedirectToAction("Index", "Home");
         }
         private async Task<bool> AutenticaUsuario(String user, String pass)
-        {           
-
+        {
+            pass = Helper.Encriptar.EncriptaMD5(pass);
             var res = await context.Usuario.CountAsync(x => x.Nombre == user && x.Clave == pass);
             return res > 0;
 

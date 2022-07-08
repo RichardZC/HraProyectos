@@ -1,67 +1,78 @@
-﻿
+﻿@model WebAdminHra.Dto.UsuarioCreacionDto
+
 <div class="row">
     <div class="col-xl-12">
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Gestion de Usuarios</h4>
                 <hr />
-                <form class="needs-validation" novalidate>
+                <form class="needs-validation" novalidate action="@Url.Action("Guardar","Usuario")" method="post">
+                    <input type="hidden" asp-for="UsuarioId" />
                     <div class="row">
                         <div class="col-md-3">
                             <div class="mb-3">
-                                <label for="validationCustom01" class="form-label">DNI</label>
-                                <input type="text" class="form-control" id="validationCustom01"
-                                       placeholder="DNI"  required>                               
+                                <label asp-for="Dni" class="form-label">DNI</label>
+                                <input type="text" class="form-control" asp-for="Dni"
+                                       placeholder="DNI" required>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="mb-3">
-                                <label for="validationCustom01" class="form-label">Apellido Paterno</label>
-                                <input type="text" class="form-control" id="validationCustom01"
-                                       placeholder="Paterno"  required>                               
+                                <label asp-for="Paterno" class="form-label">Apellido Paterno</label>
+                                <input type="text" class="form-control" asp-for="Paterno"
+                                       placeholder="Paterno" required>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="mb-3">
-                                <label for="validationCustom01" class="form-label">Apellido Materno</label>
-                                <input type="text" class="form-control" id="validationCustom01"
-                                       placeholder="Materno"  required>                               
+                                <label asp-for="Materno" class="form-label">Apellido Materno</label>
+                                <input type="text" class="form-control" asp-for="Materno"
+                                       placeholder="Materno" required>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="mb-3">
-                                <label for="validationCustom01" class="form-label">Nombres</label>
-                                <input type="text" class="form-control" id="validationCustom01"
-                                       placeholder="Nombres"  required>                               
+                                <label asp-for="Nombres" class="form-label">Nombres</label>
+                                <input type="text" class="form-control" asp-for="Nombres"
+                                       placeholder="Nombres" required>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="mb-3">
-                                <label for="validationCustom02" class="form-label">Celular</label>
-                                <input type="text" class="form-control" id="validationCustom02"
-                                       placeholder="Celular" >                                
+                                <label asp-for="Celular" class="form-label">Celular</label>
+                                <input type="text" class="form-control" asp-for="Celular"
+                                       placeholder="Celular">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="mb-3">
-                                <label for="validationCustom02" class="form-label">Usuario</label>
-                                <input type="text" class="form-control" id="validationCustom02"
-                                       placeholder="Usuario"  required>                                
+                                <label asp-for="Sexo" class="form-label">Sexo</label>
+                                <select asp-for="Sexo" class="form-select">
+                                    <option value="M" selected>MASCULINO</option>
+                                    <option value="F">FEMENINO</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="mb-3">
-                                <label for="validationCustom02" class="form-label">Contreseña</label>
-                                <input type="text" class="form-control" id="validationCustom02"
-                                       placeholder="Contraseña"  required>                                
+                                <label asp-for="NombreUsuario" class="form-label">Usuario</label>
+                                <input type="text" class="form-control" asp-for="NombreUsuario"
+                                       placeholder="Usuario" required>
                             </div>
                         </div>
-                    </div>                    
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label asp-for="Contraseña" class="form-label">Contreseña</label>
+                                <input type="text" class="form-control" asp-for="Contraseña"
+                                       placeholder="Contraseña" required>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-check mb-3">
-                        <input class="form-check-input" type="checkbox" value="" id="invalidCheck">
-                        <label class="form-check-label" for="invalidCheck">
+                        <input class="form-check-input" type="checkbox" asp-for="Estado">
+                        <label class="form-check-label" asp-for="Estado">
                             Activo
-                        </label>                        
+                        </label>
                     </div>
                     <div>
                         <button class="btn btn-primary" type="submit">Guardar</button>
@@ -69,8 +80,40 @@
                 </form>
             </div>
         </div>
-        <!-- end card -->
-    </div> <!-- end col -->
-
-    
+    </div>
 </div>
+
+@if (Model.Roles.Count > 0)
+{
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Gestion de Roles</h4>
+                    <hr />
+                    @using (Html.BeginForm("GuardarRol", "Usuario", FormMethod.Post))
+                    {
+                        @Html.HiddenFor(x=>Model.UsuarioId)
+                        @for (var i = 0; i < Model.Roles.Count; i++)
+                        {
+                            <div>
+                                @* @Html.HiddenFor(x=>Model.Roles[i].Id)*@
+                                @* @Html.CheckBoxFor(x=>Model.Roles[i].EsSeleccionado)*@
+                                @* @Html.DisplayFor(x=>Model.Roles[i].Denominacion)*@
+
+                                <input type="hidden" asp-for="Roles[i].Id" />
+                                <input class="form-check-input" type="checkbox" asp-for="Roles[i].EsSeleccionado">
+                                <label class="form-check-label" asp-for="Roles[i].EsSeleccionado">
+                                    @Model.Roles[i].Denominacion
+                                </label>
+                            </div>
+                        }
+                        <div>
+                            <button class="btn btn-primary" type="submit">Guardar</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}

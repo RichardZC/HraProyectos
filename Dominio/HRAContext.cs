@@ -142,8 +142,6 @@ namespace Dominio
             {
                 entity.ToTable("Usuario", "MAESTRO");
 
-                entity.Property(e => e.UsuarioId).ValueGeneratedNever();
-
                 entity.Property(e => e.Clave)
                     .IsRequired()
                     .HasMaxLength(50)

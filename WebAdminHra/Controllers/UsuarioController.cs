@@ -1,6 +1,7 @@
 ﻿using Dominio;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WebAdminHra.Dto;
 
 namespace WebAdminHra.Controllers
 {
@@ -10,20 +11,99 @@ namespace WebAdminHra.Controllers
         public UsuarioController(HRAContext context)
         {
             this.context = context;
-        }
-        public async Task<IActionResult> Index()
+        }        
+        public async Task<IActionResult> Index(string buscar = "")
         {
-            var usuarios = await context.Usuario.Include(x => x.Persona).ToListAsync();
+            IQueryable<Usuario> qry = context.Usuario.Include(x => x.Persona);
+            if (!string.IsNullOrWhiteSpace(buscar))
+                qry = qry.Where(x => x.Persona.NombreCompleto.Contains(buscar));
+
+            var usuarios = await qry.ToListAsync();
 
             return View(usuarios);
         }
         public async Task<IActionResult> Crear(int id = 0)
         {
-            var obj = new Usuario();
+            var obj = new Usuario() { UsuarioId = 0, Estado = true, Persona = new Persona() };
+            var roles = new List<Models.RolCheckBox>();
             if (id > 0)
-                obj = await context.Usuario.FindAsync(id);
-            return View(obj);
+            {
+                obj = await context.Usuario.Include(x => x.Persona).FirstOrDefaultAsync(x => x.UsuarioId == id);
+
+                var rolesSeleccionados = await context.UsuarioRol.Where(x => x.UsuarioId == id).ToListAsync();
+
+                var rolesbd = await context.Rol.ToListAsync();
+
+                roles = rolesbd.Select(x => new Models.RolCheckBox
+                {
+                    Id = x.RolId,
+                    Denominacion = x.Denominacion,
+                    EsSeleccionado = rolesSeleccionados.Any(y => y.RolId == x.RolId)
+                }).ToList();
+            }
+
+            return View(new Dto.UsuarioCreacionDto
+            {
+                UsuarioId = obj.UsuarioId,
+                NombreUsuario = obj.Nombre,
+                Contraseña = Helper.Encriptar.DesencriptaMD5(obj.Clave),
+                Paterno = obj.Persona.ApePaterno,
+                Materno = obj.Persona.ApeMaterno,
+                Nombres = obj.Persona.Nombre,
+                Celular = obj.Persona.Celular,
+                Dni = obj.Persona.NumeroDocumento,
+                Sexo = obj.Persona.Sexo,
+                Estado = obj.Estado,
+                Roles = roles
+            });
+        }
+        [HttpPost]
+        public async Task<IActionResult> Guardar(UsuarioCreacionDto usuario)
+        {
+            var u = new Usuario() { Persona = new Persona() { Activo = true } };
+
+            if (usuario.UsuarioId > 0)
+            {
+                u = await context.Usuario.Include(x => x.Persona).FirstOrDefaultAsync(x => x.UsuarioId == usuario.UsuarioId);
+            }
+
+            u.Nombre = usuario.NombreUsuario.ToUpper();
+            u.Clave = Helper.Encriptar.EncriptaMD5(usuario.Contraseña);
+            u.Estado = usuario.Estado;
+
+            u.Persona.ApePaterno = usuario.Paterno.ToUpper();
+            u.Persona.ApeMaterno = usuario.Materno.ToUpper();
+            u.Persona.Nombre = usuario.Nombres.ToUpper();
+            u.Persona.NombreCompleto = u.Persona.ApePaterno + " " + u.Persona.ApeMaterno + " " + u.Persona.Nombre;
+            u.Persona.Celular = usuario.Celular;
+            u.Persona.Sexo = usuario.Sexo;
+            u.Persona.NumeroDocumento = usuario.Dni;
+
+            if (usuario.UsuarioId == 0)
+                context.Usuario.Add(u);
+            else
+                context.Usuario.Update(u);
+
+            await context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public async Task<IActionResult> GuardarRol(int UsuarioId, List<Models.RolCheckBox> roles)
+        {
+            //elimina roles
+            var rol = await context.UsuarioRol.Where(x => x.UsuarioId == UsuarioId).ToListAsync();
+            context.UsuarioRol.RemoveRange(rol);
+            await context.SaveChangesAsync();
+
+            // crea roles
+            var r = roles.Where(x => x.EsSeleccionado)
+                        .Select(x => new UsuarioRol() { UsuarioId = UsuarioId, RolId = x.Id });
+            context.UsuarioRol.AddRange(r);
+            await context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
     }
 }
