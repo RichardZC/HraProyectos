@@ -25,7 +25,7 @@ namespace WebAdminHra.Controllers
         public async Task<IActionResult> Crear(int id = 0)
         {
             var obj = new Usuario() { UsuarioId = 0, Estado = true, Persona = new Persona() };
-            var roles = new List<Models.RolCheckBox>();
+            var roles = new List<Models.ItemCheckBox>();
             if (id > 0)
             {
                 obj = await context.Usuario.Include(x => x.Persona).FirstOrDefaultAsync(x => x.UsuarioId == id);
@@ -34,7 +34,7 @@ namespace WebAdminHra.Controllers
 
                 var rolesbd = await context.Rol.ToListAsync();
 
-                roles = rolesbd.Select(x => new Models.RolCheckBox
+                roles = rolesbd.Select(x => new Models.ItemCheckBox
                 {
                     Id = x.RolId,
                     Denominacion = x.Denominacion,
@@ -90,7 +90,7 @@ namespace WebAdminHra.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> GuardarRol(int UsuarioId, List<Models.RolCheckBox> roles)
+        public async Task<IActionResult> GuardarRol(int UsuarioId, List<Models.ItemCheckBox> roles)
         {
             //elimina roles
             var rol = await context.UsuarioRol.Where(x => x.UsuarioId == UsuarioId).ToListAsync();

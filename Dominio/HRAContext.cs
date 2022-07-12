@@ -174,6 +174,7 @@ namespace Dominio
                     .HasConstraintName("FK__UsuarioRo__Usuar__2B3F6F97");
             });
 
+            OnModelCreatingGeneratedProcedures(modelBuilder);
             OnModelCreatingPartial(modelBuilder);
         }
 

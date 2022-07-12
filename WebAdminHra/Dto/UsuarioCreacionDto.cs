@@ -14,6 +14,6 @@
 
         public bool Estado { get; set; }
 
-        public List<Models.RolCheckBox> Roles { get; set; } = new List<Models.RolCheckBox>();
+        public List<Models.ItemCheckBox> Roles { get; set; } = new List<Models.ItemCheckBox>();
     }
 }

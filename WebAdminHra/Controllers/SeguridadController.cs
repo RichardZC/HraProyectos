@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using System.Text.Json;
 
 namespace WebAdminHra.Controllers
 {
@@ -27,10 +28,9 @@ namespace WebAdminHra.Controllers
         [HttpPost]
         public async Task<IActionResult> Autenticar(string pUsuario, string pClave)
         {
-            bool permiso;
-            permiso = await AutenticaUsuario(pUsuario, pClave);
+            var permiso = await AutenticaUsuario(pUsuario, pClave);
 
-            if (permiso)
+            if (permiso != null)
             {
                 List<Claim> claims = new()
                 {
@@ -38,8 +38,11 @@ namespace WebAdminHra.Controllers
                 };
                 var identity = new ClaimsIdentity(claims, "Hra");
                 var userPrincipal = new ClaimsPrincipal(new[] { identity });
+                await HttpContext.SignInAsync(userPrincipal);
 
-                await HttpContext.SignInAsync(userPrincipal);          
+                //menus
+                var menu = await context.Procedures.usp_MenuLstAsync(permiso.UsuarioId);
+                HttpContext.Session.SetString("Menu", JsonSerializer.Serialize(menu));
 
             }
             else
@@ -49,13 +52,12 @@ namespace WebAdminHra.Controllers
 
             return RedirectToAction("Index", "Home");
         }
-        private async Task<bool> AutenticaUsuario(String user, String pass)
+        private async Task<Usuario> AutenticaUsuario(String user, String pass)
         {
             pass = Helper.Encriptar.EncriptaMD5(pass);
-            var res = await context.Usuario.CountAsync(x => x.Nombre == user && x.Clave == pass);
-            return res > 0;
+            var res = await context.Usuario.FirstOrDefaultAsync(x => x.Nombre == user && x.Clave == pass);
 
-            
+            return res;
         }
 
         public async Task<IActionResult> Logout()

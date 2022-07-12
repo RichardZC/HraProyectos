@@ -1,4 +1,5 @@
-﻿@model Dominio.Rol
+﻿@model WebAdminHra.Dto.RolCreacionDto 
+
 <div class="row">
     <div class="col-xl-12">
         <div class="card">
@@ -32,4 +33,33 @@
 </div>
 
 
-
+@if (Model.Menus.Count > 0)
+{
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Gestion de Menus</h4>
+                    <hr />
+                    @using (Html.BeginForm("GuardarMenu", "Rol", FormMethod.Post))
+                    {
+                        @Html.HiddenFor(x=>Model.RolId)
+                        @for (var i = 0; i < Model.Menus.Count; i++)
+                        {
+                            <div>
+                                <input type="hidden" asp-for="Menus[i].Id" />
+                                <input class="form-check-input" type="checkbox" asp-for="Menus[i].EsSeleccionado">
+                                <label class="form-check-label" asp-for="Menus[i].EsSeleccionado">
+                                    @Model.Menus[i].Denominacion
+                                </label>
+                            </div>
+                        }
+                        <div>
+                            <button class="btn btn-primary" type="submit">Guardar</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}

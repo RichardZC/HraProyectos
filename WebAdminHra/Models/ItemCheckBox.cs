@@ -1,6 +1,6 @@
 ﻿namespace WebAdminHra.Models
 {
-    public class RolCheckBox
+    public class ItemCheckBox
     {
         public int Id { get; set; }
         public string Denominacion { get; set; } = string.Empty;

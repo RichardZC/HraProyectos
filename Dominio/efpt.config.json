@@ -36,6 +36,10 @@
       {
          "Name": "[MAESTRO].[UsuarioRol]",
          "ObjectType": 0
+      },
+      {
+         "Name": "[MAESTRO].[usp_MenuLst]",
+         "ObjectType": 1
       }
    ],
    "UiHint": "DESKTOP-0QJHF0L.HRA",
