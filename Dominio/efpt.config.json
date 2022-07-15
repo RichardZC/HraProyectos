@@ -38,6 +38,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[usp_ReportePersona]",
+         "ObjectType": 1
+      },
+      {
          "Name": "[MAESTRO].[usp_MenuLst]",
          "ObjectType": 1
       }

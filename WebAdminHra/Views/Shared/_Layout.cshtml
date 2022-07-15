@@ -3,7 +3,9 @@
 @inject IHttpContextAccessor HttpContextAccesor;
 @{
     string menujson = HttpContextAccesor.HttpContext.Session.GetString("Menu");
-    var listaMenu = JsonSerializer.Deserialize<List<Dominio.usp_MenuLstResult>>(menujson);
+    List<Dominio.usp_MenuLstResult> listaMenu = new List<Dominio.usp_MenuLstResult>();
+    if (menujson!=null)
+         listaMenu = JsonSerializer.Deserialize<List<Dominio.usp_MenuLstResult>>(menujson);
 }
 <!doctype html>
 <html lang="es-pe">
@@ -18,7 +20,7 @@
     <link href="~/assets/libs/bootstrap-timepicker/css/bootstrap-timepicker.min.css" rel="stylesheet" type="text/css">
     <link href="~/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="~/assets/libs/%40chenfengyuan/datepicker/datepicker.min.css">
-    
+
     <link href="~/assets/libs/magnific-popup/magnific-popup.css" rel="stylesheet" type="text/css" />
 
     <link href="~/assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
@@ -151,14 +153,14 @@
 
                             }
                             @*<li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-dashboard" role="button">
-                                    <i class="bx bx-home-circle me-2"></i><span key="t-dashboards">Seguridad</span> <div class="arrow-down"></div>
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="topnav-dashboard">
+                            <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-dashboard" role="button">
+                            <i class="bx bx-home-circle me-2"></i><span key="t-dashboards">Seguridad</span> <div class="arrow-down"></div>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="topnav-dashboard">
 
-                                    <a href="@Url.Action("Index","Usuario")" class="dropdown-item" key="t-default">Usuario</a>
-                                    <a href="@Url.Action("Index","Rol")" class="dropdown-item" key="t-saas">Rol</a>
-                                </div>
+                            <a href="@Url.Action("Index","Usuario")" class="dropdown-item" key="t-default">Usuario</a>
+                            <a href="@Url.Action("Index","Rol")" class="dropdown-item" key="t-saas">Rol</a>
+                            </div>
                             </li>*@
 
                         </ul>

@@ -35,12 +35,14 @@ namespace Dominio
         protected void OnModelCreatingGeneratedProcedures(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<usp_MenuLstResult>().HasNoKey().ToView(null);
+            modelBuilder.Entity<usp_ReportePersonaResult>().HasNoKey().ToView(null);
         }
     }
 
     public interface IHRAContextProcedures
     {
         Task<List<usp_MenuLstResult>> usp_MenuLstAsync(int? UsuarioId, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<List<usp_ReportePersonaResult>> usp_ReportePersonaAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
     }
 
     public partial class HRAContextProcedures : IHRAContextProcedures
@@ -72,6 +74,26 @@ namespace Dominio
                 parameterreturnValue,
             };
             var _ = await _context.SqlQueryAsync<usp_MenuLstResult>("EXEC @returnValue = [MAESTRO].[usp_MenuLst] @UsuarioId", sqlParameters, cancellationToken);
+
+            returnValue?.SetValue(parameterreturnValue.Value);
+
+            return _;
+        }
+
+        public virtual async Task<List<usp_ReportePersonaResult>> usp_ReportePersonaAsync(OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        {
+            var parameterreturnValue = new SqlParameter
+            {
+                ParameterName = "returnValue",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Int,
+            };
+
+            var sqlParameters = new []
+            {
+                parameterreturnValue,
+            };
+            var _ = await _context.SqlQueryAsync<usp_ReportePersonaResult>("EXEC @returnValue = [dbo].[usp_ReportePersona]", sqlParameters, cancellationToken);
 
             returnValue?.SetValue(parameterreturnValue.Value);
 

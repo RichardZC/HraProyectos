@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsPersona" targetNamespace="http://tempuri.org/dsPersona.xsd" xmlns:mstns="http://tempuri.org/dsPersona.xsd" xmlns="http://tempuri.org/dsPersona.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsPersona" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_UserDSName="dsPersona" msprop:Generator_DataSetName="dsPersona">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="dsPersona" msprop:Generator_RowEvHandlerName="dsPersonaRowChangeEventHandler" msprop:Generator_RowDeletedName="dsPersonaRowDeleted" msprop:Generator_RowDeletingName="dsPersonaRowDeleting" msprop:Generator_RowEvArgName="dsPersonaRowChangeEvent" msprop:Generator_TablePropName="_dsPersona" msprop:Generator_RowChangedName="dsPersonaRowChanged" msprop:Generator_RowChangingName="dsPersonaRowChanging" msprop:Generator_TableClassName="dsPersonaDataTable" msprop:Generator_RowClassName="dsPersonaRow" msprop:Generator_TableVarName="tabledsPersona" msprop:Generator_UserTableName="dsPersona">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="PersonaId" msprop:Generator_ColumnPropNameInRow="PersonaId" msprop:Generator_ColumnPropNameInTable="PersonaIdColumn" msprop:Generator_ColumnVarNameInTable="columnPersonaId" msprop:Generator_UserColumnName="PersonaId" type="xs:int" minOccurs="0" />
+              <xs:element name="NombreCompleto" msprop:Generator_ColumnPropNameInRow="NombreCompleto" msprop:Generator_ColumnPropNameInTable="NombreCompletoColumn" msprop:Generator_ColumnVarNameInTable="columnNombreCompleto" msprop:Generator_UserColumnName="NombreCompleto" type="xs:string" minOccurs="0" />
+              <xs:element name="Celular" msprop:Generator_ColumnPropNameInRow="Celular" msprop:Generator_ColumnPropNameInTable="CelularColumn" msprop:Generator_ColumnVarNameInTable="columnCelular" msprop:Generator_UserColumnName="Celular" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

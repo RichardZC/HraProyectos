@@ -1,4 +1,5 @@
 using Dominio;
+using WebAdminHra.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +33,8 @@ app.UseRouting();
 app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseMiddleware<SolicitudMiddleware>();
 
 app.MapControllerRoute(
     name: "default",

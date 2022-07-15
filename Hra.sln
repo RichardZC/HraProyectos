@@ -28,6 +28,8 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "skote", "skote\", "{6DE90E1
 		SlnRelativePath = "skote\"
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reporteador", "Reporteador\Reporteador.csproj", "{3BEA2A3D-BE98-45BB-BEC7-D9EC078B9213}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +48,10 @@ Global
 		{6DE90E1A-C54D-4093-8FD4-AE22A02683A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6DE90E1A-C54D-4093-8FD4-AE22A02683A2}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{6DE90E1A-C54D-4093-8FD4-AE22A02683A2}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{3BEA2A3D-BE98-45BB-BEC7-D9EC078B9213}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BEA2A3D-BE98-45BB-BEC7-D9EC078B9213}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BEA2A3D-BE98-45BB-BEC7-D9EC078B9213}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BEA2A3D-BE98-45BB-BEC7-D9EC078B9213}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

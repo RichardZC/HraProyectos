@@ -17,10 +17,10 @@ namespace WebAdminHra.Controllers
 
         public IActionResult Index(string mensaje = "")
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("Index", "Home");
-            }
+            //if (User.Identity.IsAuthenticated)
+            //{
+            //    return RedirectToAction("Index", "Home");
+            //}
             ViewBag.Mensaje = mensaje;
             return View();
         }
