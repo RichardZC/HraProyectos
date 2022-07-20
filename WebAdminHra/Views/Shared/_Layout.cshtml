@@ -4,8 +4,8 @@
 @{
     string menujson = HttpContextAccesor.HttpContext.Session.GetString("Menu");
     List<Dominio.usp_MenuLstResult> listaMenu = new List<Dominio.usp_MenuLstResult>();
-    if (menujson!=null)
-         listaMenu = JsonSerializer.Deserialize<List<Dominio.usp_MenuLstResult>>(menujson);
+    if (menujson != null)
+        listaMenu = JsonSerializer.Deserialize<List<Dominio.usp_MenuLstResult>>(menujson);
 }
 <!doctype html>
 <html lang="es-pe">
@@ -22,11 +22,18 @@
     <link rel="stylesheet" href="~/assets/libs/%40chenfengyuan/datepicker/datepicker.min.css">
 
     <link href="~/assets/libs/magnific-popup/magnific-popup.css" rel="stylesheet" type="text/css" />
+    <!-- DataTables -->
+    <link href="~/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 
     <link href="~/assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
     <link href="~/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
     <link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="~/assets/libs/toastr/build/toastr.min.css">
+    
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
     <link href="~/assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
 </head>
 <body data-topbar="light" data-layout="horizontal">
@@ -217,6 +224,23 @@
     <script src="~/assets/libs/%40chenfengyuan/datepicker/datepicker.min.js"></script>
 
     <script src="~/assets/js/pages/form-validation.init.js"></script>
+
+    <!-- datatable js -->
+    <script src="~/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <!-- datatable Buttons examples -->
+    <script src="~/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/assets/libs/jszip/jszip.min.js"></script>
+    <script src="~/assets/libs/pdfmake/build/pdfmake.min.js"></script>
+    <script src="~/assets/libs/pdfmake/build/vfs_fonts.js"></script>
+    <script src="~/assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="~/assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+    <!-- datatable Responsive examples -->
+    <script src="~/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
     <script src="~/assets/js/app.js"></script>
     <script src="~/js/ini.js"></script>

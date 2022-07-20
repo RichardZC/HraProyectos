@@ -1,3 +1,39 @@
-﻿<a href="@Url.Action("ReportePersona","Home")" target="_blank" class="btn btn-primary">Reporte Persona</a>
-
+﻿
+<a href="@Url.Action("ReportePersona","Home")" target="_blank" class="btn btn-primary">Reporte Persona</a>
 <a href="@Url.Action("ReportePersona2","Home")" target="_blank" class="btn btn-primary">Reporte Persona 2</a>
+<hr />
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-4">Buscador</h5>
+                <div class="col-12">
+                    <label class="visually-hidden" for="txtBuscarPersona">Burcar Personas</label>
+                    <div class="input-group">                        
+                        <input type="text" class="form-control" id="txtBuscarPersona" placeholder="Apellidos">
+                        <div class="input-group-text"><i class="bx bx-search-alt"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(function() {
+            $("#txtBuscarPersona").autocomplete({
+                source: "@Url.Action("BuscarPersona", "Home")",
+                minLength: 2,
+                select: function(event, ui) {
+                    event.preventDefault();
+                    $.data(document.body, 'PersonaId', ui.item.id);
+                    alert(ui.item.id);
+                    $("#txtBuscarPersona").val(ui.item.value);
+                    //$(".msjClienteEncontrado").show('slow');
+                    //CargarGrillaCxc(ui.item.value);
+                }
+            });
+        });
+    </script>
+}

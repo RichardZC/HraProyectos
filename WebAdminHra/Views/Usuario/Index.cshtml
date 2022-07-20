@@ -71,8 +71,6 @@
                                     </td>
                                 </tr>
                             }
-
-
                         </tbody>
                     </table>
                 </div>
@@ -83,4 +81,92 @@
 </div>
 
 
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <table id="tbUsuario" class="table compact ">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="align-middle">Usuario</th>
+                            <th class="align-middle">Apellidos y Nombres</th>
+                            <th class="align-middle">DNI</th>
+                            <th class="align-middle">Celular</th>
+                            <th class="align-middle">Estado</th>
+                            <th class="align-middle">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+   @* <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css">
 
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
+    *@
+    <script>
+        $(function() {
+            $("#tbUsuario").DataTable({
+                pageLength: 3,
+                "processing": true,
+                "serverSide": true,
+                //"filter": true,
+                order: [[1, 'asc']],
+                "ajax": {
+                    "url": "@Url.Action("ListaUsuarios","Usuario")",
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columns": [
+                    //{ "data": "usuarioId" },
+                    { "data": "usuario", "name": "Nombre" },
+                    { "data": "nombreCompleto", "name": "Persona.NombreCompleto" },
+                    { "data": "dni", "name": "Persona.NumeroDocumento" },
+                    { "data": "celular", "name": "Persona.Celular" },
+                    { "data": "estado", "name": "Estado" },
+                    {
+                        "data": "usuarioId", "render": function(data) {
+                            return "<a href='#' onclick='EditarUsuario(" + data + ")' class='text-success'><i class='mdi mdi-pencil font-size-18'></i></a>";
+                        }
+                    }
+                ],
+                //columnDefs: [{ targets: 0, visible: false }],
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-ES.json'
+                },
+                search: {
+                    return: true,
+                },
+                lengthChange: !1, 
+                buttons: ["copy", "excel", "pdf", "colvis"],
+                dom: 'Bfrtip',
+                //buttons: [
+                //    {
+                //        extend: 'copyHtml5',
+                //        exportOptions: { orthogonal: 'export' }
+                //    },
+                //    {
+                //        extend: 'excelHtml5',
+                //        exportOptions: { orthogonal: 'export' }
+                //    },
+                //    {
+                //        extend: 'pdfHtml5',
+                //        exportOptions: { orthogonal: 'export' }
+                //    }
+                //]
+            }).buttons().container().appendTo("#tbUsuario_wrapper .col-md-6:eq(0)");
+
+        });
+        function EditarUsuario(id) {
+            //alert(id);
+            window.location.href = "@Url.Action("Crear","Usuario")" + "/" + id;
+        }
+    </script>
+
+}

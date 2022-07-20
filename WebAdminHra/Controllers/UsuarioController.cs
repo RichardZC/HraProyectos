@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebAdminHra.Dto;
+using System.Linq.Dynamic.Core;
 
 namespace WebAdminHra.Controllers
 {
@@ -11,7 +12,7 @@ namespace WebAdminHra.Controllers
         public UsuarioController(HRAContext context)
         {
             this.context = context;
-        }        
+        }
         public async Task<IActionResult> Index(string buscar = "")
         {
             IQueryable<Usuario> qry = context.Usuario.Include(x => x.Persona);
@@ -21,6 +22,57 @@ namespace WebAdminHra.Controllers
             var usuarios = await qry.ToListAsync();
 
             return View(usuarios);
+        }
+        [HttpPost]
+        public async Task<JsonResult> ListaUsuarios()
+        {
+            int NroPeticion = Convert.ToInt32(Request.Form["draw"].FirstOrDefault() ?? "0");
+            int CantidadRegistros = Convert.ToInt32(Request.Form["length"].FirstOrDefault() ?? "0");
+            int OmitirRegistros = Convert.ToInt32(Request.Form["start"].FirstOrDefault() ?? "0");
+            string ValorBuscado = Request.Form["search[value]"].FirstOrDefault() ?? "";
+            var sortColumn = Request.Form["columns[" + Request.Form["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();
+            var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
+
+            IQueryable<Usuario> qry = context.Usuario.Include(x => x.Persona);
+            int TotalRegistros = qry.Count();
+
+            if (!string.IsNullOrEmpty(sortColumn) && !string.IsNullOrEmpty(sortColumnDirection))
+                qry = qry.OrderBy(sortColumn + " " + sortColumnDirection);
+            if (!string.IsNullOrEmpty(ValorBuscado))
+                qry = qry.Where(x => string.Concat(x.Nombre, x.Persona.NombreCompleto).Contains(ValorBuscado));
+            
+            int TotalRegistrosFiltrados = qry.Count();
+            var lista = await qry.Skip(OmitirRegistros).Take(CantidadRegistros).ToListAsync();
+                        
+            return Json(new
+            {
+                draw = NroPeticion,
+                recordsTotal = TotalRegistros,
+                recordsFiltered = TotalRegistrosFiltrados,
+                data = lista.Select(x => new
+                {
+                    UsuarioId = x.UsuarioId,
+                    Usuario = x.Nombre,
+                    NombreCompleto = x.Persona.NombreCompleto,
+                    Dni = x.Persona.NumeroDocumento,
+                    Celular = x.Persona.Celular,
+                    Estado = x.Estado ? "ACTIVO" : "INACTIVO"
+                })
+            });
+
+            //var usuarios = await context.Usuario.Include(x => x.Persona).ToListAsync();
+            //return Json(new
+            //{
+            //    data = usuarios.Select(x => new
+            //    {
+            //        UsuarioId = x.UsuarioId,
+            //        Usuario = x.Nombre,
+            //        NombreCompleto= x.Persona.NombreCompleto,
+            //        Dni = x.Persona.NumeroDocumento,
+            //        Celular = x.Persona.Celular,
+            //        Estado = x.Estado?"ACTIVO":"INACTIVO"
+            //    })
+            //});
         }
         public async Task<IActionResult> Crear(int id = 0)
         {

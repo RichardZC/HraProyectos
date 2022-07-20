@@ -27,6 +27,25 @@ namespace WebAdminHra.Controllers
             return View();
         }
 
+        public async Task<JsonResult> BuscarPersona(string term)
+        {
+            var qry = (from p in context.Persona
+                       where p.Activo && (p.NombreCompleto.Contains(term) || p.NumeroDocumento.Contains(term))
+                       orderby p.NombreCompleto
+                       select new ItemAutocomplete
+                       {
+                           id = p.PersonaId,
+                           value = p.NumeroDocumento + " " + p.NombreCompleto 
+                       }).Take(10);
+
+            return Json(await qry.ToListAsync());
+        }
+        public class ItemAutocomplete
+        {
+            public int id { get; set; }
+            public string value { get; set; }
+        }
+
         public async Task<IActionResult> ReportePersona()
         {
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
@@ -37,7 +56,7 @@ namespace WebAdminHra.Controllers
                 NombreCompleto = x.NombreCompleto,
                 Celular = x.Celular
             }).ToListAsync();
-                        
+
             var path = @"D:\temp\rptPersona.rdlc";
             LocalReport localReport = new LocalReport(path);
             localReport.AddDataSource("dsPersona", lista);
@@ -90,10 +109,7 @@ namespace WebAdminHra.Controllers
 
 
         }
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
