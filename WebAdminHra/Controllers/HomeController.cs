@@ -14,10 +14,13 @@ namespace WebAdminHra.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly HRAContext context;
-        public HomeController(ILogger<HomeController> logger, HRAContext context)
+        private readonly IWebHostEnvironment webHostEnvironment;
+
+        public HomeController(ILogger<HomeController> logger, HRAContext context, IWebHostEnvironment webHostEnvironment)
         {
             _logger = logger;
             this.context = context;
+            this.webHostEnvironment = webHostEnvironment;
         }
 
         public IActionResult Index()
@@ -57,7 +60,8 @@ namespace WebAdminHra.Controllers
                 Celular = x.Celular
             }).ToListAsync();
 
-            var path = @"D:\temp\rptPersona.rdlc";
+            var path = $"{this.webHostEnvironment.WebRootPath}\\Reportes\\rptPersona.rdlc"; 
+            //var path = @"D:\temp\rptPersona.rdlc";
             LocalReport localReport = new LocalReport(path);
             localReport.AddDataSource("dsPersona", lista);
 
@@ -67,14 +71,14 @@ namespace WebAdminHra.Controllers
             //var result = localReport.Execute(RenderType.Pdf, 1, parameters);
             //return File(result.MainStream, "application/pdf");
 
-            //var result = localReport.Execute(RenderType.Pdf, 1, parameters);
-            //return File(result.MainStream, MediaTypeNames.Application.Octet, "demo.pdf");
+            var result = localReport.Execute(RenderType.Pdf, 1, parameters);
+            return File(result.MainStream, MediaTypeNames.Application.Octet, "demo.pdf");
 
             //var result = localReport.Execute(RenderType.Excel, 1, parameters);
             //return File(result.MainStream, MediaTypeNames.Application.Octet, "demo.xls");
 
-            var result = localReport.Execute(RenderType.Word, 1, parameters);
-            return File(result.MainStream, MediaTypeNames.Application.Octet, "demo.doc");
+            //var result = localReport.Execute(RenderType.Word, 1, parameters);
+            //return File(result.MainStream, MediaTypeNames.Application.Octet, "demo.doc");
         }
         public async Task<IActionResult> ReportePersona2()
         {
@@ -88,15 +92,16 @@ namespace WebAdminHra.Controllers
             //    Celular = x.Celular
             //}).ToListAsync();
 
-            var path = @"D:\temp\rptPersona.rdl";
+            var path = $"{this.webHostEnvironment.WebRootPath}\\Reportes\\rptPersona.rdl";
+            //var path = @"D:\temp\rptPersona.rdl";
             LocalReport localReport = new LocalReport(path);
             localReport.AddDataSource("dsPersona", lista);
 
             Dictionary<string, string> parameters = new Dictionary<string, string>();
             parameters.Add("Fecha", DateTime.Now.ToString());
 
-            //var result = localReport.Execute(RenderType.Pdf, 1, parameters);
-            //return File(result.MainStream, "application/pdf");
+            var result = localReport.Execute(RenderType.Pdf, 1, parameters);
+            return File(result.MainStream, "application/pdf");
 
             //var result = localReport.Execute(RenderType.Pdf, 1, parameters);
             //return File(result.MainStream, MediaTypeNames.Application.Octet, "demo.pdf");
@@ -104,8 +109,8 @@ namespace WebAdminHra.Controllers
             //var result = localReport.Execute(RenderType.Excel, 1, parameters);
             //return File(result.MainStream, MediaTypeNames.Application.Octet, "demo.xls");
 
-            var result = localReport.Execute(RenderType.Word, 1, parameters);
-            return File(result.MainStream, MediaTypeNames.Application.Octet, "demo.doc");
+            //var result = localReport.Execute(RenderType.Word, 1, parameters);
+            //return File(result.MainStream, MediaTypeNames.Application.Octet, "demo.doc");
 
 
         }

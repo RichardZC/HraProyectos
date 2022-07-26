@@ -18,10 +18,10 @@
                 return;
             }
             string menujson = context.Session.GetString("Menu");
-            if (menujson==null)
+            if (menujson == null)
             {
                 var url = context.Request.PathBase + "/Seguridad/Index";
-                context.Response.Redirect(url,true);
+                context.Response.Redirect(url, true);
                 return;
             }
             await _next(context);
