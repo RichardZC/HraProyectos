@@ -18,15 +18,57 @@ namespace Dominio
         {
         }
 
+        public virtual DbSet<CATEGORIA> CATEGORIA { get; set; }
+        public virtual DbSet<DETALLE_VENTA> DETALLE_VENTA { get; set; }
         public virtual DbSet<Menu> Menu { get; set; }
+        public virtual DbSet<PRODUCTO> PRODUCTO { get; set; }
         public virtual DbSet<Persona> Persona { get; set; }
         public virtual DbSet<Rol> Rol { get; set; }
         public virtual DbSet<RolMenu> RolMenu { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
         public virtual DbSet<UsuarioRol> UsuarioRol { get; set; }
+        public virtual DbSet<VENTA> VENTA { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<CATEGORIA>(entity =>
+            {
+                entity.HasKey(e => e.IdCategoria)
+                    .HasName("PK__CATEGORI__A3C02A100AC698A5");
+
+                entity.ToTable("CATEGORIA", "VENTA");
+
+                entity.Property(e => e.Descripcion)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.FechaRegistro)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+            });
+
+            modelBuilder.Entity<DETALLE_VENTA>(entity =>
+            {
+                entity.HasKey(e => e.IdDetalleVenta)
+                    .HasName("PK__DETALLE___AAA5CEC24EB19D5E");
+
+                entity.ToTable("DETALLE_VENTA", "VENTA");
+
+                entity.Property(e => e.PrecioVenta).HasColumnType("decimal(10, 2)");
+
+                entity.Property(e => e.Total).HasColumnType("decimal(10, 2)");
+
+                entity.HasOne(d => d.IdProductoNavigation)
+                    .WithMany(p => p.DETALLE_VENTA)
+                    .HasForeignKey(d => d.IdProducto)
+                    .HasConstraintName("FK_DETALLE_VENTA_PRODUCTO");
+
+                entity.HasOne(d => d.IdVentaNavigation)
+                    .WithMany(p => p.DETALLE_VENTA)
+                    .HasForeignKey(d => d.IdVenta)
+                    .HasConstraintName("FK_DETALLE_VENTA_VENTA");
+            });
+
             modelBuilder.Entity<Menu>(entity =>
             {
                 entity.ToTable("Menu", "MAESTRO");
@@ -53,6 +95,35 @@ namespace Dominio
                     .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<PRODUCTO>(entity =>
+            {
+                entity.HasKey(e => e.IdProducto)
+                    .HasName("PK__PRODUCTO__09889210C8D972F9");
+
+                entity.ToTable("PRODUCTO", "VENTA");
+
+                entity.Property(e => e.Codigo)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Descripcion)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.FechaRegistro)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.PrecioCompra).HasColumnType("decimal(10, 2)");
+
+                entity.Property(e => e.PrecioVenta).HasColumnType("decimal(10, 2)");
+
+                entity.HasOne(d => d.IdCategoriaNavigation)
+                    .WithMany(p => p.PRODUCTO)
+                    .HasForeignKey(d => d.IdCategoria)
+                    .HasConstraintName("FK_PRODUCTO_CATEGORIA");
             });
 
             modelBuilder.Entity<Persona>(entity =>
@@ -172,6 +243,44 @@ namespace Dominio
                     .WithMany(p => p.UsuarioRol)
                     .HasForeignKey(d => d.UsuarioId)
                     .HasConstraintName("FK__UsuarioRo__Usuar__2B3F6F97");
+            });
+
+            modelBuilder.Entity<VENTA>(entity =>
+            {
+                entity.HasKey(e => e.IdVenta)
+                    .HasName("PK__VENTA__BC1240BDE876A082");
+
+                entity.ToTable("VENTA", "VENTA");
+
+                entity.Property(e => e.DocumentoCliente)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.FechaRegistro)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.MontoCambio).HasColumnType("decimal(10, 2)");
+
+                entity.Property(e => e.MontoIGV).HasColumnType("decimal(10, 2)");
+
+                entity.Property(e => e.MontoPagoCon).HasColumnType("decimal(10, 2)");
+
+                entity.Property(e => e.MontoSubTotal).HasColumnType("decimal(10, 2)");
+
+                entity.Property(e => e.MontoTotal).HasColumnType("decimal(10, 2)");
+
+                entity.Property(e => e.NombreCliente)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.NumeroDocumento)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.TipoPago)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
             });
 
             OnModelCreatingGeneratedProcedures(modelBuilder);

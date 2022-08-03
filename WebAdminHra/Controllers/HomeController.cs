@@ -43,11 +43,7 @@ namespace WebAdminHra.Controllers
 
             return Json(await qry.ToListAsync());
         }
-        public class ItemAutocomplete
-        {
-            public int id { get; set; }
-            public string value { get; set; }
-        }
+        
 
         public async Task<IActionResult> ReportePersona()
         {

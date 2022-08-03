@@ -38,6 +38,22 @@
          "ObjectType": 0
       },
       {
+         "Name": "[VENTA].[CATEGORIA]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[VENTA].[DETALLE_VENTA]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[VENTA].[PRODUCTO]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[VENTA].[VENTA]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[usp_ReportePersona]",
          "ObjectType": 1
       },
