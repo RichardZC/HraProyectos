@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.123" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Pacagroup.Ecommerce.Infrastructure.Data\Empresa.Ecommerce.Infrastructure.Data.csproj" />
+    <ProjectReference Include="..\Pacagroup.Ecommerce.Infrastructure.Interface\Empresa.Ecommerce.Infrastructure.Interface.csproj" />
+    <ProjectReference Include="..\Pacagroup.Ecommerce.Transversal.Common\Empresa.Ecommerce.Transversal.Common.csproj" />
+  </ItemGroup>
+
+</Project>
